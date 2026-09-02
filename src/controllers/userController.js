@@ -317,12 +317,37 @@ const redefinirSenha = async (req, res) => {
   }
 };
 
+const listarUsuarios = async (req, res) => {
+  try {
+    const usuarios = await Usuario.find({ ativo: true }).select(
+      "_id nome email"
+    );
+
+    return res.status(200).json({
+      sucesso: true,
+      total: usuarios.length,
+      usuarios: usuarios.map((usuario) => ({
+        id: usuario._id,
+        nome: usuario.nome,
+        email: usuario.email,
+      })),
+    });
+  } catch (erro) {
+    return res.status(500).json({
+      sucesso: false,
+      mensagem: "Erro interno no servidor.",
+      erro: erro.message,
+    });
+  }
+};
+
 module.exports = {
   cadastrar,
   login,
+  listarUsuarios,
   perfil,
   editar,
   desativar,
   esqueciSenha,
   redefinirSenha,
-};
+};;

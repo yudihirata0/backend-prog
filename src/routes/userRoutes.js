@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   cadastrar,
   login,
+  listarUsuarios,
   perfil,
   editar,
   desativar,
@@ -37,7 +38,7 @@ router.post("/redefinir-senha", redefinirSenha);
 // ROTAS PRIVADAS (precisam do token JWT)
 // O middleware "autenticar" é executado antes do controller
 // ─────────────────────────────────────────────
-
+router.get("/", autenticar, listarUsuarios);
 // Ver dados do próprio perfil
 // GET /api/usuarios/perfil
 router.get("/perfil", autenticar, perfil);
